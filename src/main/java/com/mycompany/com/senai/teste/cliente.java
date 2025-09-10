@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 public class cliente extends javax.swing.JFrame {
     
@@ -22,7 +23,7 @@ public class cliente extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         txtCPF = new javax.swing.JTextField();
@@ -34,6 +35,7 @@ public class cliente extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         BT_1 = new javax.swing.JButton();
+        BT_2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,6 +57,13 @@ public class cliente extends javax.swing.JFrame {
         BT_1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BT_1ActionPerformed(evt);
+            }
+        });
+
+        BT_2.setText("VOLTAR");
+        BT_2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BT_2ActionPerformed(evt);
             }
         });
 
@@ -84,6 +93,8 @@ public class cliente extends javax.swing.JFrame {
                 .addGap(81, 81, 81))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BT_2)
+                .addGap(57, 57, 57)
                 .addComponent(BT_1)
                 .addGap(197, 197, 197))
         );
@@ -108,12 +119,14 @@ public class cliente extends javax.swing.JFrame {
                     .addComponent(txtDT_NASC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(BT_1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BT_1)
+                    .addComponent(BT_2))
                 .addGap(46, 46, 46))
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
     public void limparCampos(){
         txtCPF.setText("");
@@ -123,7 +136,7 @@ public class cliente extends javax.swing.JFrame {
         
     }
     public void inserirDados(String cpf, String nome, String fone, String datanasc){
-        String sql = "colocar os dados (cpf,nome,telefone,data de nascimento)";
+        String sql = "INSERT INTO clientes(cpf,nome,telefone,data_nascimento) VALUES(?,?,?,?)";
         
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -147,16 +160,30 @@ public class cliente extends javax.swing.JFrame {
             System.err.println("Error inserting user: " + e.getMessage());
         }
     }
-        }
+
                 
     
-    private void BT_1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BT_1ActionPerformed
-        
-    }//GEN-LAST:event_BT_1ActionPerformed
+    private void BT_1ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        String nome = txtNOME.getText();
+        String cpf = txtCPF.getText();
+        String dataNasc = txtDT_NASC.getText();
+        String fone = txtFONE.getText();
+        if (nome.isBlank()||cpf.isBlank()||dataNasc.isBlank()||fone.isBlank()) {
+            JOptionPane.showMessageDialog(null,"campos obrigatorios tem que ser preenchidos ");
+        }else{
+            inserirDados(cpf, nome, fone, dataNasc);
+            limparCampos();
+        }
+       
+    }                                    
 
-    private void txtCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCPFActionPerformed
+    private void txtCPFActionPerformed(java.awt.event.ActionEvent evt) {                                       
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtCPFActionPerformed
+    }                                      
+
+    private void BT_2ActionPerformed(java.awt.event.ActionEvent evt) {                                     
+        
+    }                                    
 
     public static void main(String args[]) {
         
@@ -198,8 +225,9 @@ public class cliente extends javax.swing.JFrame {
 //    }
     
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JButton BT_1;
+    private javax.swing.JButton BT_2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -208,5 +236,6 @@ public class cliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtDT_NASC;
     private javax.swing.JTextField txtFONE;
     private javax.swing.JTextField txtNOME;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
+
 }
